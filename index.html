@@ -1,0 +1,44 @@
+<html>
+	<body>
+		<label>
+			Enter Date:
+			<input id='dateInput' type='text'/>
+		</label>
+		<br/>
+		<br/>
+		<div>
+			<span>
+				Date:
+			</span>
+			<span id='dateStringResult' style="color:blue">
+			</span>
+		</div>
+		<br/>
+		<div>
+			<span>
+				Unix:
+			</span>
+			<span id='unixResult' style="color:blue">
+			</span>
+		</div>
+	</body>
+	<script>
+		var dateInput = document.getElementById('dateInput');
+		var dateStringResult = document.getElementById('dateStringResult');
+		var unixResult = document.getElementById('unixResult');
+		dateInput.addEventListener('change', (e)=>{
+			var fetchString = '/microservice?timeString=' + e.target.value;
+			fetch(fetchString).then((res)=>{
+				return res.json();
+			}).then((res)=>{
+				dateStringResult.innerHTML = res.dateString;
+				unixResult.innerHTML = res.utc;
+			})
+			.catch((e)=>{
+				console.log(e);
+				dateStringResult.innerHTML = '';
+				unixResult.innerHTML = '';
+			});
+		})
+	</script>
+</html>
